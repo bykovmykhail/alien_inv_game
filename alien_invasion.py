@@ -3,6 +3,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 
 class AlienInvasion:
@@ -22,13 +23,15 @@ class AlienInvasion:
         pygame.display.set_caption("Alien invasion")
 
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
 
     def run_game(self):
         """Розпочати головний цикл гри."""
         while True:
             self._check_events()
-            self._update_screen()
             self.ship.update()
+            self._update_bullets()
+            self._update_screen()
                   
 
     def _check_events(self):
@@ -52,6 +55,8 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q  or event.key == pygame.K_ESCAPE:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
             
     def _check_keyup_events(self, event):
         """Редагувати, коли клавіша не натиснута"""
@@ -60,11 +65,29 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
+    def _fire_bullet(self):
+        """Створити нову кулю та додати її до групи куль"""
+        if len(self.bullets) < self.settings.bullets_alowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+
+    def _update_bullets(self):
+        """Оновити позицію куль та позбавитися старих куль."""
+        # Оновити позиції куль. 
+        self.bullets.update()
+
+        # Позбавитися куль, що зникли
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+        print(len(self.bullets))
 
     def _update_screen(self):
         # Наново перемалювати екран на кожній ітерації циклу.        
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
 
         # Показати осатнній намальований екран.
         pygame.display.flip()
