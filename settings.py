@@ -3,7 +3,7 @@ class Settings:
         """Ініціалізувати налаштування гри"""
         # Screen налаштування
         self.screen_width = 1100
-        self.screen_height = 680
+        self.screen_height = 690
         self.bg_color = (51, 102, 255)
         self.ship_speed = 1.5
 
