@@ -17,6 +17,8 @@ class Settings:
         # Як швидко гра має прискорюватися
         self.speedup_scale = 1.1
         self.initialize_dynamic_settings()
+        # Як щвидко збільшується вартість прибульців
+        self.score_scale = 1.5
 
     def initialize_dynamic_settings(self):
         """Ініціалізація змінних налаштувань"""
@@ -25,12 +27,16 @@ class Settings:
         self.alien_speed = 1.0
         # fleet direction 1 означає напрямок руху праворучж -1 -- ліворуч.
         self.fleet_direction = 1 
+        # Отримання балів
+        self.alien_points = 50
 
     def increase_speed(self):
-        """Збільшення налаштувань швидкості"""
+        """Збільшення налаштувань швидкості та вартості прибульців"""
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
+        self.alien_points *= int(self.alien_points * self.score_scale)
+        print(self.alien_points)
          
 
 
