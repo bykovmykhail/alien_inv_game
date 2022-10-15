@@ -63,6 +63,11 @@ class AlienInvasion:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
 
+    def _check_play_button(self,mouse_pos):
+        """Розпочати нову гру, коли користувач натисне кнопку Play."""
+        if self.play_button.rect.collidepoint(mouse_pos):
+            self.stats.game_active = True
+
     def _check_keydown_events(self, event):
         """Редагувати на натискання клавіш"""            
         if event.key == pygame.K_RIGHT:
